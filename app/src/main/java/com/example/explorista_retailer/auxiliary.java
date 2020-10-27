@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 class auxiliary {
 
-    final static String SERVER_URL="http://192.168.43.137";
+    final static String SERVER_URL="http://3.16.188.152/app";
     final static int LOCATIONREQUEST_INTERVAL=10000;
 
     final static int PASSWORD_MINLENGTH=8;
