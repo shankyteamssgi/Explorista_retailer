@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Explorista_retailer</string>
+
+    <string name="tou_confirmation_text">By filling this form, I agree to&#032;</string>
+    <string name="tou_hyperlink">Terms of Use</string>
+    <string name="phone_does_not_exist">Phone does not exist.</string>
+    <string name="incorrect_password">Password is incorrect.</string>
+    <string name="inactive_account">Your account is inactive.</string>
+    <string name="navigation_drawer_open">open navigation drawer</string>
+    <string name="navigation_drawer_close">close navigation drawer</string>
+</resources>

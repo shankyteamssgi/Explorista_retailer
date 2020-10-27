@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/hamburger_menu"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_account"
+            android:title="Account"/>
+        <item
+            android:id="@+id/nav_orderHistory"
+            android:title="Order history"/>
+        <item
+            android:id="@+id/nav_listedProducts"
+            android:title="Listed products"/>
+        <item
+            android:id="@+id/nav_viewOrEditTimings"
+            android:title="View / Edit timings"/>
+    </group>
+
+</menu>

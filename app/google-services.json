@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1049403785441",
+    "firebase_url": "https://exploristaretailer.firebaseio.com",
+    "project_id": "exploristaretailer",
+    "storage_bucket": "exploristaretailer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1049403785441:android:54168cf3529809ed3f37a0",
+        "android_client_info": {
+          "package_name": "com.example.explorista_retailer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1049403785441-5mivi695cbd208cllhhaplcijdutqjej.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.explorista_retailer",
+            "certificate_hash": "715a0d938c61dc20bd69c26ad6272f1ab45cf5ac"
+          }
+        },
+        {
+          "client_id": "1049403785441-m6j60am1ikpegcn1i8t0nbt883t35rsu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC7njajYXJHMyL_vo3anpHjQzrhtW-jHc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1049403785441-m6j60am1ikpegcn1i8t0nbt883t35rsu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
