@@ -148,4 +148,8 @@ class auxiliary {
         return sb.toString().trim();
     }
 
+    private static void doNothing(){
+        // this method does nothing
+    }
+
 }
