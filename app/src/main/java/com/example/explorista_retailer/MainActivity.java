@@ -3,6 +3,7 @@ package com.example.explorista_retailer;
 import android.content.Context;
 import android.content.Intent;
 import android.icu.lang.UCharacter;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,7 +21,14 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -28,8 +36,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
-    private TextView navBarStoreNameTV,navBarStoreOwnerNameTV,navBarStoreRatingTV,statusTextTV;
-    private Button navBarLogoutB;
+    private TextView navBarStoreNameTV,navBarStoreOwnerNameTV,navBarStoreRatingTV,statusTextTV,
+            ordersUnderManagementCountTV,revenueGeneratedTV,ordersFulfilledCountTV;
+    private Button navBarLogoutB,proceedToManageOrdersB,detailedStatsB,orderHistoryB;
     private Switch statusSwitchS;
 
     @Override
@@ -39,6 +48,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setTitle("EXPORISTA STORE");
         mContext=this;
 
+        statusTextTV=findViewById(R.id.statusTextTV);
+        statusSwitchS=findViewById(R.id.statusSwitchS);
+        ordersUnderManagementCountTV=findViewById(R.id.ordersUnderManagementCountTV);
+        revenueGeneratedTV=findViewById(R.id.revenueGeneratedTV);
+        ordersFulfilledCountTV=findViewById(R.id.ordersFulfilledCountTV);
+        proceedToManageOrdersB=findViewById(R.id.proceedToManageOrdersB);
+        detailedStatsB=findViewById(R.id.detailedStatsB);
+        orderHistoryB=findViewById(R.id.orderHistoryB);
         navigationView=findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         toolbar=findViewById(R.id.toolbar);
@@ -69,8 +86,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 auxiliaryuseraccountmanager.logOut(mContext,auxiliary.SERVER_URL+"/store_userManagement.php",true);
             }
         });
-        statusTextTV=findViewById(R.id.statusTextTV);
-        statusSwitchS=findViewById(R.id.statusSwitchS);
         String store_id=auxiliaryuseraccountmanager.getStoreIdFromSP(mContext);
         Log.i("MainActivity","store id is : "+store_id);
         if(auxiliaryuseraccountmanager
@@ -102,6 +117,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+        String orders_under_management_count=fetchOrdersUnderManagementCount(auxiliary.SERVER_URL+"orderManagement.php");
+        String revenue_generated=fetchRevenueGenerated(auxiliary.SERVER_URL+"orderManagement.php");
+        String orders_fulfilled_count=fetchOrdersFulfilled(auxiliary.SERVER_URL+"orderManagement.php");
+        ordersUnderManagementCountTV.setText(orders_under_management_count);
+        revenueGeneratedTV.setText(revenue_generated);
+        ordersFulfilledCountTV.setText(orders_fulfilled_count);
+        proceedToManageOrdersB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mainActivityToOrderManagementIntent=new Intent(MainActivity.this,orderManagement.class);
+                startActivity(mainActivityToOrderManagementIntent);
+            }
+        });
+        detailedStatsB.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent mainActivityToDetailedStatsIntent=new Intent(MainActivity.this,detailedStats.class);
+                startActivity(mainActivityToDetailedStatsIntent);
+            }
+        });
+        orderHistoryB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mainActivityToOrderHistoryIntent=new Intent(MainActivity.this,orderHistory.class);
+                startActivity(mainActivityToOrderHistoryIntent);
+            }
+        });
+
     }
 
     @Override
@@ -134,4 +177,161 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
+
+    private String fetchOrdersUnderManagementCount(final String urlWebService){
+        class FetchOrdersUnderManagementCount extends AsyncTask<Void,Void,Void>{
+
+            StringBuilder orders_under_management_count;
+
+            private FetchOrdersUnderManagementCount() {
+                orders_under_management_count=new StringBuilder();
+            }
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try{
+                    URL url = new URL(urlWebService);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setDoOutput(true);
+                    con.setRequestMethod("POST");
+                    con.connect();
+                    DataOutputStream dos = new DataOutputStream(con.getOutputStream());
+                    dos.writeBytes(auxiliary.postParamsToString(new HashMap<String, String>() {
+                        {
+                            put(auxiliary.PPK_INITIAL_CHECK,auxiliary.PPV_INITIAL_CHECK);
+                        }
+                    }));
+                    dos.flush();
+                    dos.close();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String json;
+                    while ((json = bufferedReader.readLine()) != null) {
+                        sb.append(json);
+                    }
+                    this.orders_under_management_count.append(sb.toString().trim());
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
+                return null;
+            }
+            private String getOrdersUnderManagementCount(){
+                return this.orders_under_management_count.toString().trim();
+            }
+        }
+        FetchOrdersUnderManagementCount fetchOrdersUnderManagementCount=new FetchOrdersUnderManagementCount();
+        try {
+            fetchOrdersUnderManagementCount.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return fetchOrdersUnderManagementCount.getOrdersUnderManagementCount();
+    }
+
+    private String fetchRevenueGenerated(final String urlWebService){
+        class FetchRevenueGenerated extends AsyncTask<Void,Void,Void>{
+
+            StringBuilder revenue_generated;
+
+            private FetchRevenueGenerated() {
+                revenue_generated=new StringBuilder();
+            }
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try{
+                    URL url = new URL(urlWebService);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setDoOutput(true);
+                    con.setRequestMethod("POST");
+                    con.connect();
+                    DataOutputStream dos = new DataOutputStream(con.getOutputStream());
+                    dos.writeBytes(auxiliary.postParamsToString(new HashMap<String, String>() {
+                        {
+                            put(auxiliary.PPK_INITIAL_CHECK,auxiliary.PPV_INITIAL_CHECK);
+                        }
+                    }));
+                    dos.flush();
+                    dos.close();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String json;
+                    while ((json = bufferedReader.readLine()) != null) {
+                        sb.append(json);
+                    }
+                    this.revenue_generated.append(sb.toString().trim());
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
+                return null;
+            }
+            private String getRevenueGenerated(){
+                return this.revenue_generated.toString().trim();
+            }
+        }
+        FetchRevenueGenerated fetchRevenueGenerated=new FetchRevenueGenerated();
+        try {
+            fetchRevenueGenerated.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return fetchRevenueGenerated.getRevenueGenerated();
+    }
+
+    private String fetchOrdersFulfilled(final String urlWebService){
+        class FetchOrdersFulfilled extends AsyncTask<Void,Void,Void>{
+
+            StringBuilder orders_fulfilled;
+
+            private FetchOrdersFulfilled() {
+                orders_fulfilled=new StringBuilder();
+            }
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try{
+                    URL url = new URL(urlWebService);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setDoOutput(true);
+                    con.setRequestMethod("POST");
+                    con.connect();
+                    DataOutputStream dos = new DataOutputStream(con.getOutputStream());
+                    dos.writeBytes(auxiliary.postParamsToString(new HashMap<String, String>() {
+                        {
+                            put(auxiliary.PPK_INITIAL_CHECK,auxiliary.PPV_INITIAL_CHECK);
+                        }
+                    }));
+                    dos.flush();
+                    dos.close();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String json;
+                    while ((json = bufferedReader.readLine()) != null) {
+                        sb.append(json);
+                    }
+                    this.orders_fulfilled.append(sb.toString().trim());
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
+                return null;
+            }
+            private String getOrdersFulfilled(){
+                return this.orders_fulfilled.toString().trim();
+            }
+        }
+        FetchOrdersFulfilled fetchOrdersFulfilled=new FetchOrdersFulfilled();
+        try {
+            fetchOrdersFulfilled.execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return fetchOrdersFulfilled.getOrdersFulfilled();
+    }
+
 }

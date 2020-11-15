@@ -146,7 +146,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/allside_border">
                                 <TextView
-                                    android:id="@+id/revenueFigureTV"
+                                    android:id="@+id/revenueGeneratedTV"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
@@ -166,7 +166,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/allside_border">
                                 <TextView
-                                    android:id="@+id/orderCountTV"
+                                    android:id="@+id/ordersFulfilledCountTV"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
