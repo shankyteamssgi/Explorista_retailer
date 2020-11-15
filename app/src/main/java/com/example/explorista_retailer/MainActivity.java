@@ -119,6 +119,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if(menu_item_id==R.id.nav_viewOrEditTimings){
             startActivity(new Intent(MainActivity.this,setTiming.class));
             drawerLayout.closeDrawer(GravityCompat.START);
+        } else if(menu_item_id==R.id.nav_orderManagement){
+            startActivity(new Intent(MainActivity.this,orderManagement.class));
+            drawerLayout.closeDrawer(GravityCompat.START);
         }
         return true;
     }

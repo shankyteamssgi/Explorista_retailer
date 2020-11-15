@@ -8,8 +8,8 @@
         android:id="@+id/hamburger_menu"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_account"
-            android:title="Account"/>
+            android:id="@+id/nav_orderManagement"
+            android:title="Order management"/>
         <item
             android:id="@+id/nav_orderHistory"
             android:title="Order history"/>
@@ -19,6 +19,9 @@
         <item
             android:id="@+id/nav_viewOrEditTimings"
             android:title="View / Edit timings"/>
+        <item
+            android:id="@+id/nav_account"
+            android:title="Account"/>
     </group>
 
 </menu>
