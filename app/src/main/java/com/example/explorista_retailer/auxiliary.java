@@ -126,9 +126,9 @@ class auxiliary {
     final static String SPINNER_UNSELECTED_AREA="Select Area";
 
     // MainActivity.java
-    final static String PPV_REQUESTTYPE_FETCHORDERSUNDERMANAGEMENTCOUNT="20";
-    final static String PPV_REQUESTTYPE_FETCHREVENUEGENERATED="21";
-    final static String PPV_REQUESTTYPE_FETCHORDERSFULFILLED="22";
+    final static String PPV_REQUESTTYPE_FETCHORDERSUNDERMANAGEMENTCOUNT="520";
+    final static String PPV_REQUESTTYPE_FETCHREVENUEGENERATED="521";
+    final static String PPV_REQUESTTYPE_FETCHORDERSFULFILLED="522";
 
     static String postParamsToString(HashMap<String,String> params){
         /*
@@ -151,6 +151,13 @@ class auxiliary {
             i++;
         }
         return sb.toString().trim();
+    }
+
+    static boolean hasOnlyNumbers(String s){
+
+        // Utility in MainActivity.java
+
+        return s.matches("^[0-9]+$");
     }
 
 }

@@ -33,6 +33,7 @@ import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private Context mContext;
+    private String storeId;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         setTitle("EXPORISTA STORE");
         mContext=this;
+        storeId=auxiliaryuseraccountmanager.getStoreIdFromSP(mContext);
 
         statusTextTV=findViewById(R.id.statusTextTV);
         statusSwitchS=findViewById(R.id.statusSwitchS);
@@ -86,11 +88,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 auxiliaryuseraccountmanager.logOut(mContext,auxiliary.SERVER_URL+"/store_userManagement.php",true);
             }
         });
-        String store_id=auxiliaryuseraccountmanager.getStoreIdFromSP(mContext);
-        Log.i("MainActivity","store id is : "+store_id);
+        Log.i("MainActivity","store id is : "+storeId);
         if(auxiliaryuseraccountmanager
                 .storeIsOnline(auxiliary.SERVER_URL+"/store_userManagement.php"
-                        ,store_id)){
+                        ,storeId)){
             //Log.i("MainActivity","store is online");
             statusTextTV.setText(auxiliary.STORE_ONLINESTR);
             statusSwitchS.setChecked(true);
@@ -117,9 +118,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-        String orders_under_management_count=fetchOrdersUnderManagementCount(auxiliary.SERVER_URL+"orderManagement.php");
-        String revenue_generated=fetchRevenueGenerated(auxiliary.SERVER_URL+"orderManagement.php");
-        String orders_fulfilled_count=fetchOrdersFulfilled(auxiliary.SERVER_URL+"orderManagement.php");
+        String orders_under_management_count=fetchOrdersUnderManagementCount(auxiliary.SERVER_URL+"/orderManagement.php");
+        String revenue_generated=fetchRevenueGenerated(auxiliary.SERVER_URL+"/orderManagement.php");
+        String orders_fulfilled_count=fetchOrdersFulfilled(auxiliary.SERVER_URL+"/orderManagement.php");
         ordersUnderManagementCountTV.setText(orders_under_management_count);
         revenueGeneratedTV.setText(revenue_generated);
         ordersFulfilledCountTV.setText(orders_fulfilled_count);
@@ -198,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     dos.writeBytes(auxiliary.postParamsToString(new HashMap<String, String>() {
                         {
                             put(auxiliary.PPK_INITIAL_CHECK,auxiliary.PPV_INITIAL_CHECK);
+                            put(auxiliary.PPK_STOREID,storeId);
                             put(auxiliary.PPK_REQUESTTYPE,auxiliary.PPV_REQUESTTYPE_FETCHORDERSUNDERMANAGEMENTCOUNT);
                         }
                     }));
@@ -209,15 +211,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     while ((json = bufferedReader.readLine()) != null) {
                         sb.append(json);
                     }
-                    //Log.i("sql response : ",sb.toString().trim());
-                    this.orders_under_management_count.append(sb.toString().trim());
+                    String server_response=sb.toString().trim();
+                    Log.i("server response : ",server_response);
+                    this.orders_under_management_count.append(auxiliary.hasOnlyNumbers(server_response)?server_response:"-");
                 } catch(Exception e){
                     e.printStackTrace();
                 }
                 return null;
             }
             private String getOrdersUnderManagementCount(){
-                return this.orders_under_management_count.toString().trim();
+                return this.orders_under_management_count.toString();
             }
         }
         FetchOrdersUnderManagementCount fetchOrdersUnderManagementCount=new FetchOrdersUnderManagementCount();
@@ -252,6 +255,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     dos.writeBytes(auxiliary.postParamsToString(new HashMap<String, String>() {
                         {
                             put(auxiliary.PPK_INITIAL_CHECK,auxiliary.PPV_INITIAL_CHECK);
+                            put(auxiliary.PPK_STOREID,storeId);
                             put(auxiliary.PPK_REQUESTTYPE,auxiliary.PPV_REQUESTTYPE_FETCHREVENUEGENERATED);
                         }
                     }));
@@ -263,15 +267,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     while ((json = bufferedReader.readLine()) != null) {
                         sb.append(json);
                     }
-                    //Log.i("sql response : ",sb.toString().trim());
-                    this.revenue_generated.append(sb.toString().trim());
+                    String server_response=sb.toString().trim();
+                    Log.i("server response : ",server_response);
+                    this.revenue_generated.append(auxiliary.hasOnlyNumbers(server_response)?server_response:"-");
                 } catch(Exception e){
                     e.printStackTrace();
                 }
                 return null;
             }
             private String getRevenueGenerated(){
-                return this.revenue_generated.toString().trim();
+                return this.revenue_generated.toString();
             }
         }
         FetchRevenueGenerated fetchRevenueGenerated=new FetchRevenueGenerated();
@@ -306,6 +311,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     dos.writeBytes(auxiliary.postParamsToString(new HashMap<String, String>() {
                         {
                             put(auxiliary.PPK_INITIAL_CHECK,auxiliary.PPV_INITIAL_CHECK);
+                            put(auxiliary.PPK_STOREID,storeId);
                             put(auxiliary.PPK_REQUESTTYPE,auxiliary.PPV_REQUESTTYPE_FETCHORDERSFULFILLED);
                         }
                     }));
@@ -317,15 +323,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     while ((json = bufferedReader.readLine()) != null) {
                         sb.append(json);
                     }
-                    //Log.i("sql response : ",sb.toString().trim());
-                    this.orders_fulfilled.append(sb.toString().trim());
+                    String server_response=sb.toString().trim();
+                    Log.i("server response : ",server_response);
+                    this.orders_fulfilled.append(auxiliary.hasOnlyNumbers(server_response)?server_response:"-");
                 } catch(Exception e){
                     e.printStackTrace();
                 }
                 return null;
             }
             private String getOrdersFulfilled(){
-                return this.orders_fulfilled.toString().trim();
+                return this.orders_fulfilled.toString();
             }
         }
         FetchOrdersFulfilled fetchOrdersFulfilled=new FetchOrdersFulfilled();
