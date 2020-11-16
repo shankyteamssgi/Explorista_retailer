@@ -369,52 +369,51 @@ public class loginOrRegister extends AppCompatActivity {
 
     private void proceedToOtpVerification(final auxiliaryuseraccountmanager.actionType action_type){
         Log.i("MSG","inside proceedToOtpVerification");
-        try{
-            switch (action_type) {
-                case REGISTER:
-                    locationPB.setVisibility(View.VISIBLE);
-                    LocationServices.getFusedLocationProviderClient(loginOrRegister.this)
-                            .requestLocationUpdates(locationRequest, new LocationCallback() {
-                                @Override
-                                public void onLocationResult(LocationResult locationResult) {
-                                    super.onLocationResult(locationResult);
-                                    LocationServices.getFusedLocationProviderClient(loginOrRegister.this)
-                                            .removeLocationUpdates(this);
-                                    if (locationResult != null) {
-                                        if (locationResult.getLocations().size() > 0) {
-                                            Log.i("lor", "locationResult size > 0");
-                                            int latestLocationIndex = locationResult.getLocations().size() - 1;
-                                            Intent loginOrRegisterToOtpVerificationIntent = new Intent(
-                                                    loginOrRegister.this,
-                                                    otpVerification.class);
-                                            loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.ACTION_TYPE, action_type);
-                                            loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_OWNERNAME, store_ownerName);
-                                            loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_NAME, store_name);
-                                            loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_ADDRLINE1, store_addrLine1);
-                                            loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_ADDRLINE2, store_addrLine2);
-                                            loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_LANDMARK, store_landmark);
-                                            loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_LAT
-                                                    , Double.toString(locationResult.getLocations().get(latestLocationIndex).getLatitude()));
-                                            loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_LONG
-                                                    , Double.toString(locationResult.getLocations().get(latestLocationIndex).getLongitude()));
-                                            loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_CITY, store_city);
-                                            loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_AREA, store_area);
-                                            loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_SECTOR, store_sector);
-                                            loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_GSTIN, store_gstin);
-                                            loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_OWNERPAN, store_ownerPan);
-                                            loginOrRegisterToOtpVerificationIntent
-                                                    .putExtra(auxiliary.STORE_OWNERPHONE, "+91" + store_ownerPhone);
-                                            loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_OWNERPASSWORD, store_ownerPassword);
-                                            startActivity(loginOrRegisterToOtpVerificationIntent);
-                                        } else {
-                                            Log.i("LOCATION", "getLocations().size() not greater than 0");
-                                        }
+        switch (action_type) {
+            case REGISTER:
+                locationPB.setVisibility(View.VISIBLE);
+                LocationServices.getFusedLocationProviderClient(loginOrRegister.this)
+                        .requestLocationUpdates(locationRequest, new LocationCallback() {
+                            @Override
+                            public void onLocationResult(LocationResult locationResult) {
+                                super.onLocationResult(locationResult);
+                                LocationServices.getFusedLocationProviderClient(loginOrRegister.this)
+                                        .removeLocationUpdates(this);
+                                if (locationResult != null) {
+                                    if (locationResult.getLocations().size() > 0) {
+                                        Log.i("lor", "locationResult size > 0");
+                                        int latestLocationIndex = locationResult.getLocations().size() - 1;
+                                        Intent loginOrRegisterToOtpVerificationIntent = new Intent(
+                                                loginOrRegister.this,
+                                                otpVerification.class);
+                                        loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.ACTION_TYPE, action_type);
+                                        loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_OWNERNAME, store_ownerName);
+                                        loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_NAME, store_name);
+                                        loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_ADDRLINE1, store_addrLine1);
+                                        loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_ADDRLINE2, store_addrLine2);
+                                        loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_LANDMARK, store_landmark);
+                                        loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_LAT
+                                                , Double.toString(locationResult.getLocations().get(latestLocationIndex).getLatitude()));
+                                        loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_LONG
+                                                , Double.toString(locationResult.getLocations().get(latestLocationIndex).getLongitude()));
+                                        loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_CITY, store_city);
+                                        loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_AREA, store_area);
+                                        loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_SECTOR, store_sector);
+                                        loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_GSTIN, store_gstin);
+                                        loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_OWNERPAN, store_ownerPan);
+                                        loginOrRegisterToOtpVerificationIntent
+                                                .putExtra(auxiliary.STORE_OWNERPHONE, "+91" + store_ownerPhone);
+                                        loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_OWNERPASSWORD, store_ownerPassword);
+                                        startActivity(loginOrRegisterToOtpVerificationIntent);
                                     } else {
-                                        Log.i("LOCATION", "locationResult is null");
+                                        Log.i("LOCATION", "getLocations().size() not greater than 0");
                                     }
-                                    locationPB.setVisibility(View.GONE);
+                                } else {
+                                    Log.i("LOCATION", "locationResult is null");
                                 }
-                            }, Looper.getMainLooper());
+                                locationPB.setVisibility(View.GONE);
+                            }
+                        }, Looper.getMainLooper());
         /*
         Intent loginOrRegisterToOtpVerificationIntent=new Intent(loginOrRegister.this,otpVerification.class);
         loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.ACTION_TYPE,action_type);
@@ -433,20 +432,15 @@ public class loginOrRegister extends AppCompatActivity {
         loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_OWNERPHONE,"+91"+store_ownerPhone);
         loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_OWNERPASSWORD,store_ownerPassword);
         startActivity(loginOrRegisterToOtpVerificationIntent);*/
-                    break;
-                case LOGIN:
-                    Intent loginOrRegisterToOtpVerificationIntent = new Intent(loginOrRegister.this, otpVerification.class);
-                    loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.ACTION_TYPE, action_type);
-                    loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_OWNERPHONE,"+91"+phoneNoForOtpLogin);
-                    startActivity(loginOrRegisterToOtpVerificationIntent);
-                    break;
-            }
-            finish();
-        } catch (SecurityException se){
-            se.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
+                break;
+            case LOGIN:
+                Intent loginOrRegisterToOtpVerificationIntent = new Intent(loginOrRegister.this, otpVerification.class);
+                loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.ACTION_TYPE, action_type);
+                loginOrRegisterToOtpVerificationIntent.putExtra(auxiliary.STORE_OWNERPHONE,"+91"+phoneNoForOtpLogin);
+                startActivity(loginOrRegisterToOtpVerificationIntent);
+                break;
         }
+        finish();
     }
 
     private void proceedToOtpVerificationInputBypass(auxiliaryuseraccountmanager.actionType action_type){
@@ -604,36 +598,30 @@ public class loginOrRegister extends AppCompatActivity {
 
     private void getCurrentLocation(){
         locationPB.setVisibility(View.VISIBLE);
-        try{
-            LocationServices.getFusedLocationProviderClient(loginOrRegister.this)
-                    .requestLocationUpdates(locationRequest,new LocationCallback(){
-                        @Override
-                        public void onLocationResult(LocationResult locationResult) {
-                            super.onLocationResult(locationResult);
-                            LocationServices.getFusedLocationProviderClient(loginOrRegister.this)
-                                    .removeLocationUpdates(this);
-                            if(locationResult!=null){
-                                if(locationResult.getLocations().size()>0){
-                                    int latestLocationIndex=locationResult.getLocations().size()-1;
-                                    store_lat=Double.toString(locationResult.getLocations().get(latestLocationIndex).getLatitude());
-                                    store_long=Double.toString(locationResult.getLocations().get(latestLocationIndex).getLongitude());
-                                    Log.i("LOCATION","Latitude : "+store_lat);
-                                    Log.i("LOCATION","Longitude : "+store_long);
-                                } else{
-                                    Log.i("LOCATION","getLocations().size() not greater than 0");
-                                }
+        LocationServices.getFusedLocationProviderClient(loginOrRegister.this)
+                .requestLocationUpdates(locationRequest,new LocationCallback(){
+                    @Override
+                    public void onLocationResult(LocationResult locationResult) {
+                        super.onLocationResult(locationResult);
+                        LocationServices.getFusedLocationProviderClient(loginOrRegister.this)
+                                .removeLocationUpdates(this);
+                        if(locationResult!=null){
+                            if(locationResult.getLocations().size()>0){
+                                int latestLocationIndex=locationResult.getLocations().size()-1;
+                                store_lat=Double.toString(locationResult.getLocations().get(latestLocationIndex).getLatitude());
+                                store_long=Double.toString(locationResult.getLocations().get(latestLocationIndex).getLongitude());
+                                Log.i("LOCATION","Latitude : "+store_lat);
+                                Log.i("LOCATION","Longitude : "+store_long);
+                            } else{
+                                Log.i("LOCATION","getLocations().size() not greater than 0");
                             }
-                            else{
-                                Log.i("LOCATION","locationResult is null");
-                            }
-                            locationPB.setVisibility(View.GONE);
                         }
-                    }, Looper.getMainLooper());
-        } catch (SecurityException se){
-            se.printStackTrace();
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+                        else{
+                            Log.i("LOCATION","locationResult is null");
+                        }
+                        locationPB.setVisibility(View.GONE);
+                    }
+                }, Looper.getMainLooper());
     }
 
     private void setLocationRequest(){
