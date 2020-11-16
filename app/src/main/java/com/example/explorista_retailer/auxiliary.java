@@ -125,6 +125,11 @@ class auxiliary {
     final static String SPINNER_UNSELECTED_SECTOR="Select Sector";
     final static String SPINNER_UNSELECTED_AREA="Select Area";
 
+    // MainActivity.java
+    final static String PPV_REQUESTTYPE_FETCHORDERSUNDERMANAGEMENTCOUNT="20";
+    final static String PPV_REQUESTTYPE_FETCHREVENUEGENERATED="21";
+    final static String PPV_REQUESTTYPE_FETCHORDERSFULFILLED="22";
+
     static String postParamsToString(HashMap<String,String> params){
         /*
         Takes POST parameters in a HashMap<String, String>

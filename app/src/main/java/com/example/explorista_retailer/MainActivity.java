@@ -144,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(mainActivityToOrderHistoryIntent);
             }
         });
-
     }
 
     @Override
@@ -199,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     dos.writeBytes(auxiliary.postParamsToString(new HashMap<String, String>() {
                         {
                             put(auxiliary.PPK_INITIAL_CHECK,auxiliary.PPV_INITIAL_CHECK);
+                            put(auxiliary.PPK_REQUESTTYPE,auxiliary.PPV_REQUESTTYPE_FETCHORDERSUNDERMANAGEMENTCOUNT);
                         }
                     }));
                     dos.flush();
@@ -209,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     while ((json = bufferedReader.readLine()) != null) {
                         sb.append(json);
                     }
+                    //Log.i("sql response : ",sb.toString().trim());
                     this.orders_under_management_count.append(sb.toString().trim());
                 } catch(Exception e){
                     e.printStackTrace();
@@ -251,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     dos.writeBytes(auxiliary.postParamsToString(new HashMap<String, String>() {
                         {
                             put(auxiliary.PPK_INITIAL_CHECK,auxiliary.PPV_INITIAL_CHECK);
+                            put(auxiliary.PPK_REQUESTTYPE,auxiliary.PPV_REQUESTTYPE_FETCHREVENUEGENERATED);
                         }
                     }));
                     dos.flush();
@@ -261,6 +263,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     while ((json = bufferedReader.readLine()) != null) {
                         sb.append(json);
                     }
+                    //Log.i("sql response : ",sb.toString().trim());
                     this.revenue_generated.append(sb.toString().trim());
                 } catch(Exception e){
                     e.printStackTrace();
@@ -303,6 +306,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     dos.writeBytes(auxiliary.postParamsToString(new HashMap<String, String>() {
                         {
                             put(auxiliary.PPK_INITIAL_CHECK,auxiliary.PPV_INITIAL_CHECK);
+                            put(auxiliary.PPK_REQUESTTYPE,auxiliary.PPV_REQUESTTYPE_FETCHORDERSFULFILLED);
                         }
                     }));
                     dos.flush();
@@ -313,6 +317,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     while ((json = bufferedReader.readLine()) != null) {
                         sb.append(json);
                     }
+                    //Log.i("sql response : ",sb.toString().trim());
                     this.orders_fulfilled.append(sb.toString().trim());
                 } catch(Exception e){
                     e.printStackTrace();
