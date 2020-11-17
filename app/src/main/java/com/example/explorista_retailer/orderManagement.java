@@ -29,17 +29,10 @@ public class orderManagement extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        Toolbar tool = findViewById(R.id.toolbar);
-//        setSupportActionBar(tool);
-//        getSupportActionBar().setTitle("Order management");
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         ViewPager viewPager = findViewById(R.id.view_pager);
 
         ViewpagerAdapter viewpagerAdapter = new ViewpagerAdapter(getSupportFragmentManager());
-
-
 
         viewpagerAdapter.addFragment(new incomingFragment(),"Incoming");
         viewpagerAdapter.addFragment(new confirmedFragment(),"Confirmed");
@@ -47,10 +40,8 @@ public class orderManagement extends AppCompatActivity {
         viewpagerAdapter.addFragment(new complaintFragment(),"Complaint");
         viewpagerAdapter.addFragment(new pendingFragment(),"Pending");
 
-
         viewPager.setAdapter(viewpagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-
     }
 
     @Override
@@ -69,7 +60,6 @@ public class orderManagement extends AppCompatActivity {
             super(fm);
             this.fragments= new ArrayList<>();
             this.titles = new ArrayList<>();
-
         }
 
         @Override
@@ -92,7 +82,5 @@ public class orderManagement extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return titles.get(position);
         }
-
-
     }
 }
