@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                     String server_response=sb.toString().trim();
                     Log.i("server response : ",server_response);
-                    this.revenue_generated.append(auxiliary.hasOnlyNumbers(server_response)?server_response:"-");
+                    this.revenue_generated.append(auxiliary.hasOnlyNumbers(server_response)?server_response:"0");
                 } catch(Exception e){
                     e.printStackTrace();
                 }
@@ -325,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                     String server_response=sb.toString().trim();
                     Log.i("server response : ",server_response);
-                    this.orders_fulfilled.append(auxiliary.hasOnlyNumbers(server_response)?server_response:"-");
+                    this.orders_fulfilled.append(auxiliary.hasOnlyNumbers(server_response)?server_response:"0");
                 } catch(Exception e){
                     e.printStackTrace();
                 }

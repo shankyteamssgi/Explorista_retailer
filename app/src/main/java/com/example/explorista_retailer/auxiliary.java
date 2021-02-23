@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 
-class auxiliary {
+public class auxiliary {
 
     final static String SERVER_URL="http://3.16.188.152/app";
     final static int LOCATIONREQUEST_INTERVAL=10000;
@@ -85,7 +85,7 @@ class auxiliary {
     final static String PPV_REQUESTTYPE_FETCHSTOREFIELDS="7";
     final static String PPV_REQUESTTYPE_FETCHSTOREONLINESTATUS="8";
     final static String PPV_REQUESTTYPE_SETSTOREONLINESTATUS="9";
-    final static String PPK_STOREID="storeId";
+    public static final String PPK_STOREID="storeId";
     final static String PPK_STOREOWNERNAME="storeOwnerName";
     final static String PPK_STORENAME="storeName";
     final static String PPK_STOREADDRLINE1="storeAddrLine1";
@@ -125,12 +125,50 @@ class auxiliary {
     final static String SPINNER_UNSELECTED_SECTOR="Select Sector";
     final static String SPINNER_UNSELECTED_AREA="Select Area";
 
+    // orderManagement activity, its fragments and orderDataModel
+    public final static String ORDER_ID="orderId";
+    public final static String ORDER_DIFFPRODCOUNT="orderDiffProdCount";
+    public final static String ORDER_TOTAL="orderTotal";
+    public final static String ORDER_REVENUE="orderRevenue";
+    public final static String ORDER_PAYMENTSTATUS="orderPaymentStatus";
+    public final static String ORDER_STATUS="orderStatus";
+    public final static String ORDER_TAB="orderTab";
+    public final static String ORDER_TYPE="orderType";
+    public final static String ORDER_DATEANDTIME="orderDateAndTime";
+    public final static String ORDER_PRODID="orderProdId";
+    public final static String ORDER_PRODNAME="orderProdName";
+    public final static String ORDER_PRODQUANTITY="orderProdQuantity";
+    public final static String ORDER_PRODAVAILABLEQUANTITY="orderProdAvailableQuantity";
+
+    // orderManagement activity, orderHistory activity. (order statuses)
+    public final static String ORDERSTATUS_PLACED="orderStatusPlaced";
+    public final static String ORDERSTATUS_ACCEPTED="orderStatusAccepted";
+    public final static String ORDERSTATUS_PENDING="orderStatusPending";
+    public final static String ORDERSTATUS_CONFIRMED="orderStatusConfirmed";
+    public final static String ORDERSTATUS_PACKAGED="orderStatusPackaged";
+    public final static String ORDERSTATUS_DISPATCHED="orderStatusDispatched";
+    public final static String ORDERSTATUS_ARRIVED="orderStatusArrived";
+    public final static String ORDERSTATUS_PROBATION="orderStatusComplete";
+    public final static String ORDERSTATUS_COMPLAINT="orderStatusComplaint";
+    public final static String ORDERSTATUS_COMPLETE="orderStatusComplete";
+
+    // orderManagement activity, its fragments and orderDataModel
+    public static final String ORDERTAB_INCOMING="ordeTabIncoming";
+    public static final String ORDERTAB_CONFIRMED="orderTabConfirmed";
+    public static final String ORDERTAB_DISPATCHED="orderTabDispatched";
+    public static final String ORDERTAB_PENDING="orderTabPending";
+    public static final String ORDERTAB_COMPLAINT="orderTabComplaint";
+
     // MainActivity.java
     final static String PPV_REQUESTTYPE_FETCHORDERSUNDERMANAGEMENTCOUNT="520";
     final static String PPV_REQUESTTYPE_FETCHREVENUEGENERATED="521";
     final static String PPV_REQUESTTYPE_FETCHORDERSFULFILLED="522";
 
-    static String postParamsToString(HashMap<String,String> params){
+    // General use (Sample PPVs)
+    public static final String PPV_SAMPLEURLWEBSERVICE="sampleUrlWebService";
+    public static final String PPV_SAMPLESTOREID="sampleStoreId";
+
+    public static String postParamsToString(HashMap<String,String> params){
         /*
         Takes POST parameters in a HashMap<String, String>
         and returns POST string to be passed to OutputStream of HttpURLConnection
